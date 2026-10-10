@@ -1,0 +1,369 @@
+<div class="users-page">
+
+  <div class="page-header">
+  <div>
+    <span class="eyebrow">ADMINISTRATION</span>
+    <h1>User Management</h1>
+    <p>Manage registered users and access levels.</p>
+  </div>
+
+  <div class="header-actions">
+    <button
+      class="back-button"
+      type="button"
+      (click)="goBack()"
+    >
+      ← Back to Dashboard
+    </button>
+
+    <button
+      class="primary-button"
+      type="button"
+      (click)="openAddForm()"
+    >
+      + Add User
+    </button>
+  </div>
+</div>
+
+
+  @if (successMessage) {
+    <div class="message success-message">
+      {{ successMessage }}
+    </div>
+  }
+
+
+  @if (errorMessage) {
+    <div class="message error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (userPendingDeletion) {
+    <div class="confirmation-backdrop">
+      <section
+        class="confirmation-dialog"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="delete-user-title"
+        aria-describedby="delete-user-description"
+      >
+        <span class="section-label">CONFIRM DELETION</span>
+        <h2 id="delete-user-title">Delete user?</h2>
+        <p id="delete-user-description">
+          Are you sure you want to delete
+          <strong>"{{ userPendingDeletion.name }}" ({{ userPendingDeletion.userId }})</strong>?
+          This action cannot be undone.
+        </p>
+
+        @if (errorMessage) {
+          <div class="message error-message" role="alert">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <div class="confirmation-actions">
+          <button
+            class="secondary-button"
+            type="button"
+            [disabled]="deletingUserId !== null"
+            (click)="cancelDelete()"
+          >
+            Cancel
+          </button>
+          <button
+            class="delete-button"
+            type="button"
+            [disabled]="deletingUserId !== null"
+            (click)="confirmDelete()"
+          >
+            {{ deletingUserId ? 'Deleting...' : 'Delete User' }}
+          </button>
+        </div>
+      </section>
+    </div>
+  }
+
+
+  @if (showForm) {
+
+    <section class="user-form-card">
+
+      <div class="form-header">
+        <div>
+          <span class="section-label">
+            {{ editingUser ? 'EDIT USER' : 'NEW USER' }}
+          </span>
+
+          <h2>
+            {{ editingUser ? 'Update User' : 'Create User' }}
+          </h2>
+        </div>
+
+        <button
+          class="close-button"
+          type="button"
+          (click)="closeForm()"
+        >
+          ×
+        </button>
+      </div>
+
+
+      <form (ngSubmit)="saveUser()">
+
+        <div class="form-grid">
+
+          @if (!editingUser) {
+            <div class="form-field">
+              <label for="userId">User ID</label>
+
+              <input
+                id="userId"
+                type="text"
+                name="userId"
+                [(ngModel)]="form.userId"
+                placeholder="USR002"
+              />
+            </div>
+          }
+
+
+          <div class="form-field">
+            <label for="name">Full Name</label>
+
+            <input
+              id="name"
+              type="text"
+              name="name"
+              [(ngModel)]="form.name"
+              placeholder="John Doe"
+            />
+          </div>
+
+
+          <div class="form-field">
+            <label for="email">Email</label>
+
+            <input
+              id="email"
+              type="email"
+              name="email"
+              [(ngModel)]="form.email"
+              placeholder="john@example.com"
+            />
+          </div>
+
+
+          @if (!editingUser) {
+            <div class="form-field">
+              <label for="password">Password</label>
+
+              <input
+                id="password"
+                type="password"
+                name="password"
+                [(ngModel)]="form.password"
+                placeholder="Minimum 6 characters"
+              />
+            </div>
+          }
+
+
+          <div class="form-field">
+            <label for="role">Role</label>
+
+            <select
+              id="role"
+              name="role"
+              [(ngModel)]="form.role"
+            >
+              <option value="GENERAL_USER">
+                General User
+              </option>
+
+              <option value="ADMIN">
+                Administrator
+              </option>
+            </select>
+          </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            class="secondary-button"
+            type="button"
+            (click)="closeForm()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="primary-button"
+            type="submit"
+            [disabled]="saving"
+          >
+            {{ saving
+              ? 'Saving...'
+              : editingUser
+                ? 'Update User'
+                : 'Create User'
+            }}
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+  }
+
+
+  <section class="users-card">
+
+  <div class="section-header">
+
+    <div>
+      <span class="section-label">
+        REGISTERED USERS
+      </span>
+
+      <h2>Users</h2>
+    </div>
+
+    @if (!loading && !errorMessage) {
+      <span class="user-count">
+        {{ users.length }} users
+      </span>
+    }
+
+  </div>
+
+  @if (loading) {
+
+    <div class="loading-state">
+      <div>⏳</div>
+      <p>Loading users...</p>
+      <small>Fetching registered users from the API...</small>
+    </div>
+
+  } @else if (errorMessage) {
+
+    <div class="empty-state error-state">
+      <h3>Unable to load users</h3>
+      <p>{{ errorMessage }}</p>
+
+      <button
+        class="primary-button"
+        type="button"
+        (click)="loadUsers()"
+      >
+        Try Again
+      </button>
+    </div>
+
+  } @else if (users.length === 0) {
+
+    <div class="empty-state">
+      No users found.
+    </div>
+
+  } @else {
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (user of users; track user.id || user._id) {
+
+            <tr>
+
+              <td>
+                <strong>{{ user.userId }}</strong>
+              </td>
+
+              <td>
+                {{ user.name }}
+              </td>
+
+              <td>
+                {{ user.email }}
+              </td>
+
+              <td>
+                <span
+                  class="role-badge"
+                  [class.admin]="user.role === 'ADMIN'"
+                >
+                  {{
+                    user.role === 'ADMIN'
+                      ? 'Administrator'
+                      : 'General User'
+                  }}
+                </span>
+              </td>
+
+              <td>
+                {{
+                  user.createdAt
+                    ? (user.createdAt | date:'mediumDate')
+                    : '—'
+                }}
+              </td>
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    class="edit-button"
+                    type="button"
+                    (click)="openEditForm(user)"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    class="delete-button"
+                    type="button"
+                    (click)="deleteUser(user)"
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</section>
+
+</div>

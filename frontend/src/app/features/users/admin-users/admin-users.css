@@ -1,0 +1,405 @@
+.users-page {
+  min-height: 100%;
+  padding: 32px;
+  background: #f6f7fb;
+  color: #172033;
+}
+
+/* Header */
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.eyebrow,
+.section-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #5146e5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  color: #687386;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-button {
+  border: 1px solid #d8dce8;
+  border-radius: 10px;
+  padding: 11px 16px;
+  background: white;
+  color: #374151;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.back-button:hover {
+  background: #f8f9fc;
+  border-color: #c7cce0;
+}
+
+/* Buttons */
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 18px;
+  background: #5146e5;
+  color: white;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.primary-button:hover {
+  background: #4338ca;
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  border: 1px solid #d8dce8;
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: white;
+  color: #374151;
+  font-weight: 600;
+}
+
+.close-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: #f1f3f8;
+  color: #4b5563;
+  font-size: 24px;
+}
+
+/* Messages */
+
+.message {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.success-message {
+  border: 1px solid #b7e4c7;
+  background: #ecfdf3;
+  color: #166534;
+}
+
+.error-message {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Form */
+
+.user-form-card,
+.users-card {
+  border: 1px solid #e3e6ee;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.05);
+}
+
+.user-form-card {
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.form-header h2,
+.section-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-field label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d9deea;
+  border-radius: 9px;
+  padding: 11px 12px;
+  outline: none;
+  background: white;
+  color: #172033;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  border-color: #5146e5;
+  box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Users table */
+
+.users-card {
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid #e8ebf2;
+}
+
+.user-count {
+  color: #687386;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 850px;
+}
+
+thead {
+  background: #f8f9fc;
+}
+
+th {
+  padding: 14px 18px;
+  color: #687386;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 16px 18px;
+  border-top: 1px solid #edf0f5;
+  color: #374151;
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #fafbff;
+}
+
+/* Role */
+
+.role-badge {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.role-badge.admin {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+/* Actions */
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-button,
+.delete-button {
+  border-radius: 8px;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.edit-button {
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.delete-button {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.confirmation-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(23, 32, 51, 0.42);
+}
+
+.confirmation-dialog {
+  width: min(100%, 460px);
+  padding: 28px;
+  border: 1px solid #e3e6ee;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.22);
+}
+
+.confirmation-dialog h2 {
+  margin: 4px 0 12px;
+  color: #172033;
+  font-size: 22px;
+}
+
+.confirmation-dialog p {
+  color: #687386;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.confirmation-dialog p strong {
+  color: #172033;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.confirmation-actions .delete-button {
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+}
+
+.confirmation-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* States */
+
+.loading-state,
+.empty-state {
+  padding: 50px 24px;
+  color: #687386;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .users-page {
+    padding: 20px;
+  }
+
+  .page-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions button {
+    width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .confirmation-dialog {
+    padding: 22px;
+  }
+
+  .confirmation-actions {
+    flex-direction: column-reverse;
+  }
+
+  .confirmation-actions button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,289 @@
+<div class="dashboard-page">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+
+      <div>
+        <h2>MPloyChek</h2>
+        <p>Access &amp; Verification Platform</p>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="user-summary">
+        <strong>{{ user?.name }}</strong>
+        <span>
+          {{ user?.role === 'ADMIN' ? 'Administrator' : 'General User' }}
+        </span>
+      </div>
+
+      <button
+        class="logout-button"
+        type="button"
+        (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-content">
+
+    <!-- HERO -->
+    <section class="hero-section">
+
+      <div class="hero-copy">
+        <span class="eyebrow">SECURE WORKSPACE</span>
+
+        <h1>
+          Welcome, {{ user?.name }}
+        </h1>
+
+        <p>
+          Review your verification records and account information.
+        </p>
+      </div>
+
+      <div class="hero-actions">
+        <span class="role-badge">
+          {{ user?.role === 'ADMIN' ? 'Administrator' : 'General User' }}
+        </span>
+
+        @if (user?.role === 'ADMIN') {
+          <button
+            class="admin-button"
+            type="button"
+            (click)="openUserManagement()"
+          >
+            User Management
+          </button>
+        }
+      </div>
+
+    </section>
+
+
+    <!-- PROFILE -->
+    <section class="profile-grid">
+
+      <div class="info-card">
+        <span class="card-label">USER ID</span>
+        <strong>{{ user?.userId }}</strong>
+      </div>
+
+      <div class="info-card">
+        <span class="card-label">EMAIL</span>
+        <strong>{{ user?.email }}</strong>
+      </div>
+
+      <div class="info-card">
+        <span class="card-label">ACCESS LEVEL</span>
+        <strong>
+          {{
+            user?.role === 'ADMIN'
+              ? 'Administrative Access'
+              : 'Standard Access'
+          }}
+        </strong>
+      </div>
+
+    </section>
+
+
+    <!-- RECORDS -->
+    <section class="records-section">
+
+      <!-- SECTION HEADER -->
+      <div class="section-header">
+
+        <div>
+          <span class="section-eyebrow">
+            VERIFICATION DATA
+          </span>
+
+          <h2>
+            Accessible Records
+          </h2>
+        </div>
+
+
+        <!-- API STATUS -->
+        @if (loading) {
+
+          <span class="api-status">
+            Loading from API...
+          </span>
+
+        } @else if (errorMessage) {
+
+          <span class="api-status error">
+            API Error
+          </span>
+
+        } @else {
+
+          <span class="api-status success">
+            {{ records.length }} records available
+          </span>
+
+        }
+
+      </div>
+
+
+      <!-- LOADING STATE -->
+      @if (loading) {
+
+        <div class="records-state">
+
+          <div class="state-icon">
+            ⏳
+          </div>
+
+          <h3>
+            Loading records...
+          </h3>
+
+          <p>
+            The API is processing your request. Please wait.
+          </p>
+
+        </div>
+
+      }
+
+
+      <!-- ERROR STATE -->
+      @else if (errorMessage) {
+
+        <div class="records-state">
+
+          <div class="state-icon">
+            !
+          </div>
+
+          <h3>
+            Unable to load records
+          </h3>
+
+          <p>
+            {{ errorMessage }}
+          </p>
+
+          <button
+            type="button"
+            (click)="loadRecords()">
+            Try Again
+          </button>
+
+        </div>
+
+      }
+
+
+      <!-- EMPTY STATE -->
+      @else if (records.length === 0) {
+
+        <div class="records-state">
+
+          <div class="state-icon">
+            ✓
+          </div>
+
+          <h3>
+            No accessible records
+          </h3>
+
+          <p>
+            There are currently no records available for your access level.
+          </p>
+
+        </div>
+
+      }
+
+
+      <!-- RECORD TABLE -->
+      @else {
+
+        <div class="records-table-wrapper">
+
+          <table class="records-table">
+
+            <thead>
+              <tr>
+                <th>Record ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Access</th>
+              </tr>
+            </thead>
+
+
+            <tbody>
+
+              @for (record of records; track record.recordId) {
+
+                <tr>
+
+                  <td>
+                    <strong>
+                      {{ record.recordId }}
+                    </strong>
+                  </td>
+
+                  <td>
+                    {{ record.title }}
+                  </td>
+
+                  <td>
+                    {{ record.category }}
+                  </td>
+
+                  <td>
+                    {{ record.description }}
+                  </td>
+
+                  <td>
+                    <span
+                      class="status-badge"
+                      [class.status-active]="record.status === 'ACTIVE'"
+                      [class.status-pending]="record.status === 'PENDING'"
+                      [class.status-completed]="record.status === 'COMPLETED'"
+                    >
+                      {{ record.status }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="access-badge"
+                      [class.access-all]="record.access === 'ALL'"
+                      [class.access-admin]="record.access === 'ADMIN_ONLY'"
+                    >
+                      {{ record.access }}
+                    </span>
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+    </section>
+
+  </main>
+
+</div>
